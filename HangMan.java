@@ -95,7 +95,8 @@ public class HangMan {
 					System.out.println("Goodbye.");
 				} else {
 					System.out.println("Here comes the game.");
-					hangUp(input);}
+					hangUp(input);
+				}
             }
             //game
 
