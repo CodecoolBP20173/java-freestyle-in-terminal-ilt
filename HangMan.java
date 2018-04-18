@@ -1,4 +1,10 @@
 import java.util.Scanner;
+import java.io.IOException;
+import java.util.Random;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+
 public class HangMan {
 
     private static String[] capitals = {"kabul", "tirana", "algiers", "andorra", "luanda", "yerevan", "canberra", "vienna", 
@@ -24,7 +30,22 @@ public class HangMan {
         "bull", "dingo", "bee", "snail", "swan", "starfish", "fish", "alligator", "chameleon", "dove", "hummingbird", "gorilla",
          "gecko", "fly", "donkey", "pony", "pigeon", "sheep", "flamingo", "buffalo", "caterpillar", "vulture", "spider", "mouse"};
 
-    private static String word = capitals[(int) (Math.random() * capitals.length)];
+	private static String word = capitals[(int) (Math.random() * capitals.length)]; // use this for reading and picking random word from this file
+	
+	// use this for reading and picking word from external txt file
+	private static String pickWord(String fileName) { 
+        try {
+            Stream<String> words = Files.lines(Paths.get(fileName));
+            String[] result = words.toArray(String[]::new);
+            int idx = new Random().nextInt(result.length);
+            String pickedWord = (result[idx]);
+            words.close();
+            return pickedWord;
+        } catch (IOException e) {
+            return "";
+        }
+    }
+
     private static String hashtag = new String(new char[word.length()]).replace("\0", "#");
     private static int count = 0;
 
