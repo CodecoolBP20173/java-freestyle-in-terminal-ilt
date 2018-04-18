@@ -127,7 +127,8 @@ public class HangMan {
 					System.out.println("Goodbye.");
 				} else {
 					System.out.println("Here comes the game.");
-					hangUp(input);}
+					hangUp(input);
+				}
 			}
 			//game
 
@@ -139,8 +140,7 @@ public class HangMan {
 				inputState[0] = false;
 				inputState[1] = false;
 			// win
-		}
-
+			}
 		}
 	}
 
@@ -265,5 +265,3 @@ public class HangMan {
 		}
 	}
 }
-
-
