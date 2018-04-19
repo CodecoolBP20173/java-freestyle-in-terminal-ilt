@@ -117,7 +117,7 @@ public class HangMan {
         }
     }
 
-    public static void multiPlayer() {
+    public static void multiPlayer(String word) {
         inputState[0] = true;
         System.out.println("Guess any letter");
         while (inputState[0]) {
