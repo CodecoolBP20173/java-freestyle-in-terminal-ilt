@@ -96,8 +96,10 @@ public class HangMan {
         }
     }
 
-    public static void multiPlayer() {
-        /*    inputState[0] = true;
+    public static void multiPlayer(String word) {
+        inputState[0] = true;
+
+        String hashtag = new String(new char[word.length()]).replace("\0", "#");
         System.out.println("Guess any letter");
         while (inputState[0]) {
             //input check
@@ -109,12 +111,11 @@ public class HangMan {
                 if (inputState[0].equals(false)) {
                     System.out.println("Goodbye.");
                 } else if (inputState[1] == false) {
-                    System.out.println("Here comes the game.");
-                    hangUp(input, word, hashtag);
+                    hashtag = hangUp(input, word, hashtag);
                 }
             }
             //game
-        
+
             if (count == 7) {
                 inputState[0] = false;
                 inputState[1] = false;
@@ -125,7 +126,7 @@ public class HangMan {
                 // win
             }
         }
-        */}
+    }
 
     public static void inputCheck(String input) {
         String englishAlphabet = "abcdefghijklmnopqrstuvwxyz";
