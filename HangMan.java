@@ -35,7 +35,7 @@ public class HangMan {
                 }
                 incorrectInput = false;
             } else if (gamemode.equals("m")) {
-                System.out.println("multi-player");
+                System.out.println("Enter the word you want to be guessed by the other player:");
                 String word = checkWord();
                 multiPlayer(word);
                 incorrectInput = false;
