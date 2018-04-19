@@ -36,7 +36,7 @@ public class HangMan {
                 incorrectInput = false;
             } else if (gamemode.equals("m")) {
                 System.out.println("multi-player");
-                String word = sc.nextLine();
+                String word = checkWord();
                 multiPlayer(word);
                 incorrectInput = false;
             } else if (gamemode.equals("exit")) {
@@ -47,6 +47,24 @@ public class HangMan {
         }
 
         sc.close();
+    }
+
+    private static String checkWord() {
+        String englishAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        Boolean incorrectInput = true;
+        String word = "";
+        while (incorrectInput) {
+            word = sc.nextLine();
+            incorrectInput = false;
+            for (int i = 0; i < word.length(); i++) {
+                if (!englishAlphabet.contains(Character.toString(word.charAt(i)))) {
+                    incorrectInput = true;
+                    System.out.println("Please only use letters from the english alphabet.");
+                }
+            }
+        }
+        return word;
+
     }
 
     private static String getWord(String fileName) {
@@ -100,11 +118,12 @@ public class HangMan {
         inputState[0] = true;
 
         String hashtag = new String(new char[word.length()]).replace("\0", "#");
-        System.out.println("Guess any letter");
+
         while (inputState[0]) {
             //input check
             inputState[1] = true;
             System.out.println(hashtag);
+            System.out.println("Guess a letter (or 'exit' to quit the game):");
             while (inputState[1]) {
                 String input = sc.nextLine().trim().toLowerCase();
                 inputCheck(input);
