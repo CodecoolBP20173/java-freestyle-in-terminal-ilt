@@ -11,35 +11,6 @@ public class HangMan {
 
     private static String[][] gameTable = { { "w", "o", "r", "d" }, { "0", "0", "0", "0" } };
 
-    private static String[] capitals = { "kabul", "tirana", "algiers", "andorra", "luanda", "yerevan", "canberra",
-            "vienna", "baku", "nassau", "manama", "dhaka", "bridgetown", "minsk", "brussels", "belmopan", "thimphu",
-            "sarajevo", "gaborone", "brasilia", "sofia", "praia", "yaounde", "ottawa", "bangui", "santiago", "beijing",
-            "bogota", "moroni", "kinshasa", "brazzaville", "zagreb", "havana", "nicosia", "prague", "copenhagen",
-            "roseau", "quito", "cairo", "asmara", "tallinn", "suva", "helsinki", "paris", "leibreville", "banjul",
-            "berlin", "accra", "athens", "guatemala", "conakry", "bissau", "georgetown", "tegucigalpa", "budapest",
-            "reykjavik", "jakarta", "tehran", "baghdad", "dublin", "jerusalem", "rome", "kingston", "tokyo", "amman",
-            "astana", "nairobi", "pristina", "kuwait", "bishkek", "vientiane", "riga", "beirut", "maseru", "monrovia",
-            "tripoli", "vaduz", "vilnius", "luxembourg", "skopje", "antananarivo", "linogwe", "male", "bamako",
-            "valletta", "majuro", "mexico", "palikir", "chisinau", "monaco", "ulaanbaatar", "podgorica", "rabat",
-            "maputo", "windhoek", "kathmandu", "amsterdam", "wellington", "managua", "niamey", "abuja", "pyongyang",
-            "oslo", "muscat", "islamabad", "panama", "asuncion", "lima", "manila", "warsaw", "lisbon", "doha",
-            "bucharest", "moscow", "kigali", "basseterre", "castries", "kingstown", "apia", "riyadh", "dakar",
-            "belgrade", "victoria", "freetown", "singapore", "bratislava", "ljubljana", "honiara", "mogadishu", "seoul",
-            "juba", "madrid", "khartoum", "paramaribo", "stocholm", "bern", "damascus", "taipei", "dodoma", "bangkok",
-            "dili", "lome", "tunis", "ankara", "kampala", "kyiv", "london", "washington", "montevideo", "tashkent",
-            "vatican", "caracas", "hanoi", "lusaka", "harare" };
-
-    private static String[] animals = { "dog", "cat", "dolphin", "tiger", "wolf", "fox", "penguin", "horse", "cow",
-            "elephant", "lion", "ant", "monkey", "panda", "snake", "eagle", "bear", "rabbit", "turtle", "zebra",
-            "giraffe", "shark", "jaguar", "leopard", "seal", "koala", "parrot", "pig", "deer", "hyena", "bat", "rhino",
-            "puffin", "duck", "octopus", "crocodile", "frog", "kangaroo", "owl", "butterfly", "goat", "camel",
-            "chicken", "chimpanzee", "llamas", "orangutan", "hawk", "rat", "bull", "dingo", "bee", "snail", "swan",
-            "starfish", "fish", "alligator", "chameleon", "dove", "hummingbird", "gorilla", "gecko", "fly", "donkey",
-            "pony", "pigeon", "sheep", "flamingo", "buffalo", "caterpillar", "vulture", "spider", "mouse" };
-
-    private static String word = capitals[(int) (Math.random() * capitals.length)]; // use this for reading and picking random word from this file
-
-    private static String hashtag = new String(new char[word.length()]).replace("\0", "#");
     private static int count = 0;
     private static Boolean[] inputState = { true, true };
 
@@ -51,7 +22,17 @@ public class HangMan {
             String gamemode = sc.nextLine().trim().toLowerCase();
             if (gamemode.equals("s")) {
                 System.out.println("single-player");
-                singlePlayer();
+                System.out.println("Please select a category:\nC - Capitals\nA - Animals");
+                String category = sc.nextLine();
+                if (category.equals("c")) {
+                    String word = getWord("capitals.txt");
+                    System.out.println("Which capital is this?");
+                    singlePlayer(word);
+                } else if (category.equals("a")) {
+                    String word = getWord("animals.txt");
+                    System.out.println("Which animal is this?");
+                    singlePlayer(word);
+                }
                 incorrectInput = false;
             } else if (gamemode.equals("m")) {
                 System.out.println("multi-player");
@@ -67,8 +48,7 @@ public class HangMan {
         sc.close();
     }
 
-    // use this for reading and picking word from external txt file
-    private static String pickWord(String fileName) {
+    private static String getWord(String fileName) {
         try {
             Stream<String> words = Files.lines(Paths.get(fileName));
             String[] result = words.toArray(String[]::new);
@@ -81,8 +61,11 @@ public class HangMan {
         }
     }
 
-    public static void singlePlayer() {
+    public static void singlePlayer(String word) {
         inputState[0] = true;
+        
+        
+        String hashtag = new String(new char[word.length()]).replace("\0", "#");
         System.out.println("Guess any letter");
         while (inputState[0]) {
             //input check
@@ -93,9 +76,9 @@ public class HangMan {
                 inputCheck(input);
                 if (inputState[0].equals(false)) {
                     System.out.println("Goodbye.");
-                } else {
+                } else if (inputState[1] == false) {
                     System.out.println("Here comes the game.");
-                    hangUp(input);
+                    hashtag = hangUp(input, word, hashtag);
                 }
             }
             //game
@@ -114,7 +97,7 @@ public class HangMan {
     }
 
     public static void multiPlayer() {
-        inputState[0] = true;
+    /*    inputState[0] = true;
         System.out.println("Guess any letter");
         while (inputState[0]) {
             //input check
@@ -127,7 +110,7 @@ public class HangMan {
                     System.out.println("Goodbye.");
                 } else {
                     System.out.println("Here comes the game.");
-                    hangUp(input);
+                    hangUp(input, word, hashtag);
                 }
             }
             //game
@@ -142,7 +125,7 @@ public class HangMan {
                 // win
             }
         }
-    }
+    */}
 
     public static void inputCheck(String input) {
         String englishAlphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -158,7 +141,7 @@ public class HangMan {
         }
     }
 
-    public static void hangUp(String guess) {
+    public static String hangUp(String guess, String word, String hashtag) {
         String newHashtag = "";
         for (int i = 0; i < word.length(); i++) {
             if (word.charAt(i) == guess.charAt(0)) {
@@ -172,16 +155,17 @@ public class HangMan {
 
         if (hashtag.equals(newHashtag)) {
             count++;
-            hangUpImage();
+            hangUpImage(word);
         } else {
             hashtag = newHashtag;
         }
         if (hashtag.equals(word)) {
             System.out.println("Correct! You won! The word was " + word);
         }
+        return hashtag;
     }
 
-    public static void hangUpImage() {
+    public static void hangUpImage(String word) {
         if (count == 1) {
             System.out.println("Wrong guess, try again");
             System.out.println();
