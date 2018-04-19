@@ -39,7 +39,8 @@ public class HangMan {
                 incorrectInput = false;
             } else if (gamemode.equals("m")) {
                 System.out.println("multi-player");
-                multiPlayer();
+                String word = sc.nextLine();
+                multiPlayer(word);
                 incorrectInput = false;
             } else if (gamemode.equals("exit")) {
                 incorrectInput = false;
@@ -65,6 +66,7 @@ public class HangMan {
 
     public static void singlePlayer(String word) {
         inputState[0] = true;
+
         String hashtag = new String(new char[word.length()]).replace("\0", "#");
         System.out.println("Guess any letter");
         while (inputState[0]) {
@@ -96,8 +98,10 @@ public class HangMan {
         }
     }
 
-    public static void multiPlayer() {
-    /*    inputState[0] = true;
+    public static void multiPlayer(String word) {
+        inputState[0] = true;
+
+        String hashtag = new String(new char[word.length()]).replace("\0", "#");
         System.out.println("Guess any letter");
         while (inputState[0]) {
             //input check
@@ -108,9 +112,8 @@ public class HangMan {
                 inputCheck(input);
                 if (inputState[0].equals(false)) {
                     System.out.println("Goodbye.");
-                } else {
-                    System.out.println("Here comes the game.");
-                    hangUp(input, word, hashtag);
+                } else if (inputState[1] == false) {
+                    hashtag = hangUp(input, word, hashtag);
                 }
             }
             //game
@@ -125,7 +128,7 @@ public class HangMan {
                 // win
             }
         }
-    */}
+    }
 
     public static void inputCheck(String input) {
         String englishAlphabet = "abcdefghijklmnopqrstuvwxyz";
