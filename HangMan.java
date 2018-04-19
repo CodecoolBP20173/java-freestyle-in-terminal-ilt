@@ -9,7 +9,7 @@ import java.lang.*;
 public class HangMan {
     private static Scanner sc = new Scanner(System.in);
 
-    private static String[] usedAndMissedLetters = {"",""};
+    private static String[] usedAndMissedLetters = { "", "" };
     /* in the first String are all the used letters, they cannot typed again (needs exception handling), 
     in the second array there are only the missed letters, they will be printed on the screen */
 
@@ -29,18 +29,21 @@ public class HangMan {
                 String category = sc.nextLine();
                 if (category.equals("c")) {
                     String word = getWord("capitals.txt");
+                    String hashtag = new String(new char[word.length()]).replace("\0", "#");
                     System.out.println("Which capital is this?");
-                    singlePlayer(word);
+                    singlePlayer(word, hashtag);
                 } else if (category.equals("a")) {
                     String word = getWord("animals.txt");
+                    String hashtag = new String(new char[word.length()]).replace("\0", "#");
                     System.out.println("Which animal is this?");
-                    singlePlayer(word);
+                    singlePlayer(word, hashtag);
                 }
                 incorrectInput = false;
             } else if (gamemode.equals("m")) {
                 System.out.println("Enter the word you want to be guessed by the other player:");
                 String word = checkWord();
-                multiPlayer(word);
+                String hashtag = new String(new char[word.length()]).replace("\0", "#");
+                multiPlayer(word, hashtag);
                 incorrectInput = false;
             } else if (gamemode.equals("exit")) {
                 incorrectInput = false;
@@ -82,10 +85,9 @@ public class HangMan {
         }
     }
 
-    public static void singlePlayer(String word) {
+    public static void singlePlayer(String word, String hashtag) {
         inputState[0] = true;
 
-        String hashtag = new String(new char[word.length()]).replace("\0", "#");
         System.out.println("Guess any letter");
         while (inputState[0]) {
             //input check
@@ -94,7 +96,6 @@ public class HangMan {
             while (inputState[1]) {
                 String input = sc.nextLine().trim().toLowerCase();
                 inputCheck(input);
-                System.out.println("Missed letters: " + usedAndMissedLetters[1]);
                 if (inputState[0].equals(false)) {
                     System.out.println("Goodbye.");
                 } else if (inputState[1] == false) {
@@ -116,16 +117,15 @@ public class HangMan {
         }
     }
 
-    public static void multiPlayer(String word) {
+    public static void multiPlayer(String word, String hashtag) {
         inputState[0] = true;
-
-        String hashtag = new String(new char[word.length()]).replace("\0", "#");
 
         while (inputState[0]) {
             //input check
             inputState[1] = true;
             System.out.println(hashtag);
             System.out.println("Guess a letter (or 'exit' to quit the game):");
+            System.out.println(hashtag);
             while (inputState[1]) {
                 String input = sc.nextLine().trim().toLowerCase();
                 inputCheck(input);
@@ -136,15 +136,14 @@ public class HangMan {
                 }
             }
             //game
-
             if (count == 7) {
                 inputState[0] = false;
                 inputState[1] = false;
-                // loose
+                System.out.println("You lost!");
             } else if (!hashtag.contains("#")) {
                 inputState[0] = false;
                 inputState[1] = false;
-                // win
+                System.out.println("You won!");
             }
         }
     }
@@ -167,20 +166,26 @@ public class HangMan {
 
     public static String hangUp(String guess, String word, String hashtag) {
         String newHashtag = "";
-        for (int i = 0; i < word.length(); i++) {
-            if (word.charAt(i) == guess.charAt(0)) {
-                newHashtag += guess.charAt(0);
-                usedAndMissedLetters[0] += word.charAt(i);
-            } else if (hashtag.charAt(i) != '#') {
-                newHashtag += word.charAt(i);
-                usedAndMissedLetters[1] += word.charAt(i);
-            } else {
-                newHashtag += "#";
+        if (!word.contains(guess)) { // guess is not in word
+            usedAndMissedLetters[1] += guess.charAt(0);
+            newHashtag = hashtag;
+        } else {
+            for (int i = 0; i < word.length(); i++) {
+                if (guess.charAt(0) == hashtag.charAt(i)
+                        && !usedAndMissedLetters[0].contains(Character.toString(guess.charAt(0)))) { //already found letter
+                    usedAndMissedLetters[0] += word.charAt(i);
+                    newHashtag += guess;
+                } else if (hashtag.charAt(i) != '#') { //add already guessed letter to newHashtag
+                    newHashtag += word.charAt(i);
+                } else if (word.charAt(i) == guess.charAt(0)) { // found a new letter
+                    newHashtag += guess.charAt(0);
+                } else {
+                    newHashtag += "#";
+                }
             }
         }
-        System.out.println("Missssssssed letters are: " + usedAndMissedLetters[1]);
-
-        if (hashtag.equals(newHashtag)) {
+        System.out.println("Missed letters are: " + usedAndMissedLetters[1]);
+        if (hashtag.equals(newHashtag) && !usedAndMissedLetters[0].contains(guess)) {
             count++;
             hangUpImage(word);
         } else {
@@ -195,6 +200,8 @@ public class HangMan {
     public static void hangUpImage(String word) {
         if (count == 1) {
             System.out.println("Wrong guess, try again");
+            System.out.println();
+            System.out.println();
             System.out.println();
             System.out.println();
             System.out.println();
