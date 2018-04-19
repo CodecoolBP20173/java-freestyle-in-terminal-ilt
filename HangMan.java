@@ -9,9 +9,12 @@ import java.lang.*;
 public class HangMan {
     private static Scanner sc = new Scanner(System.in);
 
-    private static String[][] gameTable = { { "w", "o", "r", "d" }, { "0", "0", "0", "0" } };
+    private static String[] usedAndMissedLetters = {"",""};
+    /* in the first String are all the used letters, they cannot typed again (needs exception handling), 
+    in the second array there are only the missed letters, they will be printed on the screen */
 
     private static int count = 0;
+
     private static Boolean[] inputState = { true, true };
 
     public static void main(String[] args) {
@@ -44,7 +47,6 @@ public class HangMan {
                 System.out.println("Wrong input. Please type in 'S' or 'M' or 'Exit'.");
             }
         }
-
         sc.close();
     }
 
@@ -63,8 +65,6 @@ public class HangMan {
 
     public static void singlePlayer(String word) {
         inputState[0] = true;
-        
-        
         String hashtag = new String(new char[word.length()]).replace("\0", "#");
         System.out.println("Guess any letter");
         while (inputState[0]) {
@@ -74,10 +74,10 @@ public class HangMan {
             while (inputState[1]) {
                 String input = sc.nextLine().trim().toLowerCase();
                 inputCheck(input);
+                System.out.println("Missed letters: " + usedAndMissedLetters[1]);
                 if (inputState[0].equals(false)) {
                     System.out.println("Goodbye.");
                 } else if (inputState[1] == false) {
-                    System.out.println("Here comes the game.");
                     hashtag = hangUp(input, word, hashtag);
                 }
             }
@@ -136,6 +136,8 @@ public class HangMan {
             System.out.println("Please only type in a single letter.");
         } else if (englishAlphabet.contains(input)) {
             inputState[1] = false;
+        } else if (usedAndMissedLetters[0].contains(input)) {
+            System.out.println("This letter is already used. Try another.");
         } else {
             System.out.println("Please only type in letters from the english alphabet.");
         }
@@ -146,12 +148,15 @@ public class HangMan {
         for (int i = 0; i < word.length(); i++) {
             if (word.charAt(i) == guess.charAt(0)) {
                 newHashtag += guess.charAt(0);
+                usedAndMissedLetters[0] += word.charAt(i);
             } else if (hashtag.charAt(i) != '#') {
                 newHashtag += word.charAt(i);
+                usedAndMissedLetters[1] += word.charAt(i);
             } else {
                 newHashtag += "#";
             }
         }
+        System.out.println("Missssssssed letters are: " + usedAndMissedLetters[1]);
 
         if (hashtag.equals(newHashtag)) {
             count++;
