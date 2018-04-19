@@ -20,12 +20,12 @@ public class HangMan {
     public static void main(String[] args) {
 
         Boolean incorrectInput = true;
-        System.out.println("Please select a gamemode:\nS - Single Player\nM - Multi Player\nExit - Quit game");
+        System.out.println("\nPlease select a gamemode:\n  S - Single Player\n  M - Multi Player\n  Exit - Quit game\n");
         while (incorrectInput) {
             String gamemode = sc.nextLine().trim().toLowerCase();
             if (gamemode.equals("s")) {
-                System.out.println("single-player");
-                System.out.println("Please select a category:\nC - Capitals\nA - Animals");
+                System.out.println("\nSingle player mode\n");
+                System.out.println("Please select a category:\n  A - Animals\n  B - Body parts\n  C - Capitals\n");
                 String category = sc.nextLine();
                 if (category.equals("c")) {
                     String word = getWord("capitals.txt");
@@ -34,6 +34,10 @@ public class HangMan {
                 } else if (category.equals("a")) {
                     String word = getWord("animals.txt");
                     System.out.println("Which animal is this?");
+                    singlePlayer(word);
+                } else if (category.equals("b")) {
+                    String word = getWord("body_parts.txt");
+                    System.out.println("Which part of body is this?");
                     singlePlayer(word);
                 }
                 incorrectInput = false;
