@@ -51,11 +51,15 @@ public class HangMan {
             String gamemode = sc.nextLine().trim().toLowerCase();
             if (gamemode.equals("s")) {
                 System.out.println("single-player");
+                String word = capitals[(int) (Math.random() * capitals.length)]; // use this for reading and picking random word from this file
+
+                String hashtag = new String(new char[word.length()]).replace("\0", "#");
                 singlePlayer();
                 incorrectInput = false;
             } else if (gamemode.equals("m")) {
                 System.out.println("multi-player");
-                multiPlayer();
+                String word = sc.nextLine();
+                multiPlayer(word);
                 incorrectInput = false;
             } else if (gamemode.equals("exit")) {
                 incorrectInput = false;
@@ -93,7 +97,7 @@ public class HangMan {
                 inputCheck(input);
                 if (inputState[0].equals(false)) {
                     System.out.println("Goodbye.");
-                } else {
+                } else if (inputState[1] == false) {
                     System.out.println("Here comes the game.");
                     hangUp(input);
                 }
@@ -125,7 +129,7 @@ public class HangMan {
                 inputCheck(input);
                 if (inputState[0].equals(false)) {
                     System.out.println("Goodbye.");
-                } else {
+                } else if (inputState[1] == false) {
                     System.out.println("Here comes the game.");
                     hangUp(input);
                 }
