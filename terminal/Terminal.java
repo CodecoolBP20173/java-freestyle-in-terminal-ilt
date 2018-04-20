@@ -1,4 +1,4 @@
-package com.codecool.termlib;
+package terminal;
 
 public class Terminal {
     private static final String CONTROL_CODE = "\033[";
@@ -9,23 +9,21 @@ public class Terminal {
     public void resetStyle() {
     }
 
-    public void clearScreen() {
+    public static void clearScreen() {
+        System.out.print(CONTROL_CODE + CLEAR);
     }
 
     public void moveTo(Integer x, Integer y) {
     }
 
-    public void setColor(Color color) {
-    }
+    //public void setColor(Color color) {}
 
-    public void setBgColor(Color color) {
-    }
+    //public void setBgColor(Color color) {}
 
     public void setUnderline() {
     }
 
-    public void moveCursor(Direction direction, Integer amount) {
-    }
+    //public void moveCursor(Direction direction, Integer amount) {}
 
     public void setChar(char c) {
     }

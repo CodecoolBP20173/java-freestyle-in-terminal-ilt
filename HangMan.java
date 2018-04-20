@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.io.IOException;
 import java.util.Random;
@@ -5,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 import java.lang.*;
-import Terminal.*;
+import terminal.*;
 
 public class HangMan {
     private static Scanner sc = new Scanner(System.in);
@@ -25,12 +26,13 @@ public class HangMan {
                 .println("\nPlease select a gamemode:\n  S - Single Player\n  M - Multi Player\n  Exit - Quit game\n");
         while (incorrectInput) {
             String gamemode = sc.nextLine().trim().toLowerCase();
-            System.out.print("\033[" + "2J");
+            Terminal.clearScreen();
+            //Terminal.clearScreen();
             if (gamemode.equals("s")) {
                 System.out.println("\nSingle player mode\n");
                 System.out.println("Please select a category:\n  A - Animals\n  B - Body parts\n  C - Capitals\n");
                 String category = sc.nextLine();
-                System.out.print("\033[" + "2J");
+                Terminal.clearScreen();
                 if (category.equals("c")) {
                     String word = getWord("capitals.txt");
                     String hashtag = new String(new char[word.length()]).replace("\0", "#");
@@ -52,7 +54,7 @@ public class HangMan {
                 System.out.println("Enter the word you want to be guessed by the other player:");
                 String word = checkWord();
                 String hashtag = new String(new char[word.length()]).replace("\0", "#");
-                System.out.print("\033[" + "2J");
+                Terminal.clearScreen();
                 multiPlayer(word, hashtag);
                 incorrectInput = false;
             } else if (gamemode.equals("exit")) {
@@ -105,7 +107,7 @@ public class HangMan {
             System.out.println(hashtag);
             while (inputState[1]) {
                 String input = sc.nextLine().trim().toLowerCase();
-                System.out.print("\033[" + "2J");
+                Terminal.clearScreen();
                 inputCheck(input);
                 if (inputState[0].equals(false)) {
                     System.out.println("Goodbye.");
@@ -139,7 +141,7 @@ public class HangMan {
             System.out.println(hashtag);
             while (inputState[1]) {
                 String input = sc.nextLine().trim().toLowerCase();
-                System.out.print("\033[" + "2J");
+                Terminal.clearScreen();
                 inputCheck(input);
                 if (inputState[0].equals(false)) {
                     System.out.println("Goodbye.");
