@@ -203,6 +203,7 @@ public class HangMan {
             hangUpImage(word);
         } else {
             hashtag = newHashtag;
+            hangUpImage(word);
         }
         if (hashtag.equals(word)) {
             System.out.println("Correct! The word was " + word);
