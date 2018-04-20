@@ -201,9 +201,11 @@ public class HangMan {
         if (hashtag.equals(newHashtag) && !usedAndMissedLetters[0].contains(guess)) {
             count++;
             hangUpImage(word);
+            System.out.println();
         } else {
             hashtag = newHashtag;
             hangUpImage(word);
+            System.out.println();
         }
         if (hashtag.equals(word)) {
             System.out.println("Correct! The word was " + word);
