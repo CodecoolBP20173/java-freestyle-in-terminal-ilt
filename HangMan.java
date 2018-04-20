@@ -20,7 +20,7 @@ public class HangMan {
     private static Boolean[] inputState = { true, true };
 
     public static void main(String[] args) {
-
+        Terminal.clearScreen();
         Boolean incorrectInput = true;
         System.out
                 .println("\nPlease select a gamemode:\n  S - Single Player\n  M - Multi Player\n  Exit - Quit game\n");
