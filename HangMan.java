@@ -138,7 +138,6 @@ public class HangMan {
             inputState[1] = true;
             System.out.println(hashtag);
             System.out.println("Guess a letter (or 'exit' to quit the game):");
-            System.out.println(hashtag);
             while (inputState[1]) {
                 String input = sc.nextLine().trim().toLowerCase();
                 Terminal.clearScreen();
@@ -206,7 +205,7 @@ public class HangMan {
             hashtag = newHashtag;
         }
         if (hashtag.equals(word)) {
-            System.out.println("Correct! You won! The word was " + word);
+            System.out.println("Correct! The word was " + word);
         }
         return hashtag;
     }
